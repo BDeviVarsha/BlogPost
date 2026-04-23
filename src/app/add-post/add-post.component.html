@@ -1,0 +1,31 @@
+<p>add-post works!</p>
+<div class="card">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Name: </label>
+            <input type="text" id="name" formControlName="name">
+            <div *ngIf="postForm.controls['name'].touched && postForm.controls['name'].invalid">
+                Enter your name
+            </div>
+        </div>
+        <div>
+            <label for="title">Title: </label>
+            <input type="text" id="title" formControlName="title">
+            <div *ngIf="postForm.controls['title'].touched && postForm.controls['title'].invalid" class="text-danger">
+                Enter a title
+            </div>
+        </div>
+        <div>
+            <label for="desc">Description: </label>
+            <ckeditor id="desc" [editor]="Editor" formControlName="description" [config]="editorConfig"></ckeditor>
+            <div *ngIf="postForm.controls['description'].touched && postForm.controls['description'].invalid" class="text-danger">
+                Enter the description
+            </div>
+        </div>
+        <div>
+            <label for="attach">Attachment Files: </label>
+            <input type="file" id="attach" (change)="onFileSelected($event)">
+        </div>
+        <button type="submit" [disabled]="postForm.invalid">Create Post</button>
+    </form>
+</div>

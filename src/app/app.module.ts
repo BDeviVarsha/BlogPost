@@ -1,0 +1,33 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AddPostComponent } from './add-post/add-post.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule} from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    AddPostComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    CKEditorModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

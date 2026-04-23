@@ -1,0 +1,24 @@
+<p>register works!</p>
+<div>
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Name: </label>
+            <input type="text" id="name" formControlName="name">
+        </div>
+        <div>
+            <label for="phoneNo">Mobile Number: </label>
+            <input type="number" id="phoneNo" formControlName="phoneNo">
+            <div *ngIf="regForm.controls['phoneNo'].touched && regForm.controls['phoneNo'].invalid" class="text-danger">
+                Enter a valid mobile number
+            </div>
+        </div>
+        <div>
+            <label for="role">Role: </label>
+            <input type="text" id="role" formControlName="role">
+            <div *ngIf="regForm.controls['role'].touched && regForm.controls['role'].invalid" class="text-danger">
+                Role is required
+            </div>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
