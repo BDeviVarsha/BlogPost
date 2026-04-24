@@ -29,10 +29,10 @@ export class AddPostComponent {
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
       const selectedFile: File = event.target.files[0];
-      const allowedTypes = ['audio/mpeg', 'image/png', 'image/jpeg', 'text/plain'];
+      const allowedTypes = ['audio/mpeg', 'image/png', 'image/jpeg', 'image/jpg', 'video/mp4'];
 
       if (!allowedTypes.includes(selectedFile.type)) {
-        alert('Only mp3, png, jpg or txt files are allowed!');
+        alert('Only mp3, png, jpg, jpeg or mp4 files are allowed!');
         this.postForm.patchValue({ file: null });
         return;
       }

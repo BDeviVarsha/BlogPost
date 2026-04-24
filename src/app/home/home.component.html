@@ -1,33 +1,30 @@
 <p>Home works</p>
 <div *ngFor="let post of Posts">
-    <h5> {{post.name}} </h5>
+    <h5>{{ post.name }}</h5>
     <div class="border p-3">
-        <h4> {{post.title}} </h4>
+        <h4>{{ post.title }}</h4>
         <div [innerHTML]="post.description"></div>
+
         <div *ngIf="post.filepath">
-            <!-- <a [href]="getFileUrl(post.filepath.split('/').pop())" target="_blank">
-                {{ post.filepath.split('/').pop() }}
-            </a> -->
-            <!-- <div *ngIf="post.filepath">
-                <ng-container [ngSwitch]="true">
-                    <img *ngSwitchCase="isImage(post.filepath)" [src]="getFileUrl(post.filepath)" width="200">
-                    <audio *ngSwitchCase="isAudio(post.filepath)" controls>
-                        <source [src]="getFileUrl(post.filepath)" type="audio/mpeg">
-                    </audio>
-                    <a *ngSwitchCase="isText(post.filepath)" [href]="getFileUrl(post.filepath)"
-                        target="_blank">View/Download Text</a>
-                    <a *ngSwitchDefault [href]="getFileUrl(post.filepath)" target="_blank">Download File</a>
-                </ng-container>
-            </div> -->
-            <div *ngIf="post.filepath">
-        <ng-container *ngIf="isImage(post.filepath)">
-            <img [src]="getFileName(post.filepath)" style="max-width:200px" />
-        </ng-container>
-        <ng-container *ngIf="!isImage(post.filepath)">
-            <a [href]="getFileName(post.filepath)" target="_blank">
-                {{ getFileName(post.filepath) }}
-            </a>
-        </ng-container>
-    </div>
+            <ng-container *ngIf="isImage(post.filepath)">
+                <img [src]="getFileUrl(post.filepath)" alt="Post Image" style="max-width:200px" />
+            </ng-container>
+
+            <ng-container *ngIf="isAudio(post.filepath)">
+                <audio controls>
+                    <source [src]="getFileUrl(post.filepath)" type="audio/mpeg" />
+                </audio>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="isText(post.filepath)">
+                        <a [href]="getFileUrl(post.filepath)" target="_blank">View Text File</a>
+                    </ng-container> -->
+
+            <ng-container *ngIf="!isImage(post.filepath) && !isAudio(post.filepath)">
+                <a [href]="getFileUrl(post.filepath)" target="_blank">
+                    {{ getFileName(post.filepath) }}
+                </a>
+            </ng-container>
         </div>
     </div>
+</div>

@@ -10,8 +10,11 @@
         </div>
         <div>
             <label for="role">Role: </label>
-            <input type="text" id="role" formControlName="role">
-            <div *ngIf="loginForm.controls['role'].touched && loginForm.controls['role'].invalid">
+            <select id="role" formControlName="role">
+                <option value="">Select a role</option>
+                <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+            </select>
+            <div *ngIf="loginForm.controls['role'].touched && loginForm.controls['role'].invalid" class="text-danger">
                 Role is required
             </div>
         </div>

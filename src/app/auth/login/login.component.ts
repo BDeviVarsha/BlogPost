@@ -16,6 +16,22 @@ export class LoginComponent {
       role: ['', Validators.required]
     });
   }
+  roles: { name: string }[] = [];
+  
+  ngOnInit() {
+    this.loadRoles();
+  }
+
+  loadRoles() {
+    this.service.getRoles().subscribe(
+      (data) => {
+        this.roles = data;
+      },
+      (err) => {
+        console.error('Error fetching roles', err);
+      }
+    );
+  }
 
   onSubmit() {
     console.log(this.loginForm.value);

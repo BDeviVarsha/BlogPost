@@ -10,6 +10,7 @@ import { AddPostComponent } from './add-post/add-post.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HttpClientModule} from '@angular/common/http';
     LoginComponent,
     RegisterComponent,
     AddPostComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,

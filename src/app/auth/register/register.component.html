@@ -14,11 +14,15 @@
         </div>
         <div>
             <label for="role">Role: </label>
-            <input type="text" id="role" formControlName="role">
+            <select id="role" formControlName="role">
+                <option value="">Select a role</option>
+                <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+            </select>
             <div *ngIf="regForm.controls['role'].touched && regForm.controls['role'].invalid" class="text-danger">
                 Role is required
             </div>
         </div>
+
         <button type="submit">Register</button>
     </form>
 </div>
