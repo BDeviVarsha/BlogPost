@@ -1,38 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Message } from '../chat/message';
 import { User } from '../chat/user';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  // private hubConnection!: signalR.HubConnection;
-  // private messagesSubject = new BehaviorSubject<Message[]>([]);
-  // messages$ = this.messagesSubject.asObservable();
-  // constructor() { }
-
-  // async startConnection(userId: number) {
-  //   this.hubConnection = new signalR.HubConnectionBuilder()
-  //     .withUrl(`https://localhost:7249/chatHub?userId=${userId}`, { accessTokenFactory: () => '' })
-  //     .withAutomaticReconnect() // Automatically handles reconnection logic
-  //     .build();
-
-  //   await this.hubConnection.start().then(() => console.log('Connection started'))
-  //     .catch(err => console.log('Error while starting connection: ' + err));
-
-  //   // Listen for incoming messages
-  //   this.hubConnection.on('ReceiveMessage', (senderId: number, content: string) => {
-  //     const currentMessages = this.messagesSubject.getValue();
-  //     this.messagesSubject.next([...currentMessages, { senderId, receiverId: userId, content }]);
-  //   });
-  // }
-
-  // sendMessage(senderId: number, receiverId: number, content: string) {
-  //   this.hubConnection.invoke('SendMessage', senderId, receiverId, content)
-  //     .catch(err => console.error(err));
-  // }
 
   private hubConnection!: signalR.HubConnection;
 
@@ -45,6 +21,7 @@ export class ChatService {
   private typingSubject = new BehaviorSubject<number | null>(null);
   typing$ = this.typingSubject.asObservable();
   hubUrl = "https://localhost:7249/chathub";
+  constructor(private http: HttpClient) { }
 
   startConnection(currentUserId: number) {
     this.hubConnection = new signalR.HubConnectionBuilder()

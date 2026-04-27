@@ -11,6 +11,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ChatComponent } from './chat/chat.component';
     RegisterComponent,
     AddPostComponent,
     ChatComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

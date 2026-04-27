@@ -15,32 +15,33 @@ export class HomeComponent {
   ngOnInit(): void {
     this.service.getPosts().subscribe((data) => {
       this.Posts = data;
-      console.log(this.Posts);
-      console.log(this.Posts[0].filepath);
-      console.log(this.getFileUrl(this.Posts[10].filepath));
     });
   }
-  getFileName(filePath: string): string {
-    return filePath.split('/').pop()!;
+  getFileName(filePath?: string): string {
+    if (!filePath) {
+      return '';
+    }
+    return filePath.split('/').pop() || '';
+    
   }
 
-  // isImage(filePath: string): boolean {
-  //     const ext = filePath.split('.').pop()?.toLowerCase();
-  //     return ext === 'png' || ext === 'jpg';
-  // }
-  getFileUrl(filePath: string): string | undefined {
+  getPostFilePath(post: Posts): string | undefined {
+    return post.filePath;
+  }
+
+  getFileUrl(filePath?: string): string | undefined {
     return this.service.getFileUrl(filePath);
   }
 
-  isImage(fileName: string): boolean {
-    return /\.(png|jpg|jpeg)$/i.test(fileName);
+  isImage(fileName?: string): boolean {
+    return !!fileName && /\.(png|jpg|jpeg)$/i.test(fileName);
   }
 
-  isAudio(fileName: string): boolean {
-    return /\.mp3$/i.test(fileName);
+  isAudio(fileName?: string): boolean {
+    return !!fileName && /\.mp3$/i.test(fileName);
   }
 
-  // isText(fileName: string): boolean {
-  //   return /\.txt$/i.test(fileName);
-  // }
+  isVideo(fileName?: string): boolean {
+    return !!fileName && /\.mp4$/i.test(fileName);
+  }
 }

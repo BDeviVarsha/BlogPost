@@ -2,6 +2,13 @@
 <div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div>
+            <label for="name">Name: </label>
+            <input type="text" id="name" formControlName="name">
+            <div *ngIf="loginForm.controls['name'].touched && loginForm.controls['name'].invalid" class="text-danger">
+                Name is required
+            </div>
+        </div>
+        <div>
             <label for="phoneNo">Mobile Number: </label>
             <input type="number" id="phoneNo" formControlName="phoneNo">
             <div *ngIf="loginForm.controls['phoneNo'].touched && loginForm.controls['phoneNo'].invalid" class="text-danger">

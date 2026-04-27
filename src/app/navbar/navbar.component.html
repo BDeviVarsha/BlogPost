@@ -1,0 +1,25 @@
+<header>
+    <div class="main">
+        <div>
+            <a routerLink="">
+                <h3>Blog Post</h3>
+            </a>
+        </div>
+
+        <nav class="side">
+            <ng-container *ngIf="!isLoggedIn">
+                <a routerLink="/Register">Register</a>
+                <a routerLink="/Login">Login</a>
+                <a routerLink="/AddPost">Add Post</a>
+            </ng-container>
+
+            <ng-container *ngIf="isLoggedIn">
+                <i class="bi bi-chat-dots-fill"></i>
+                <a routerLink="/Chat">Chat</a>
+                <a routerLink="/AddPost">Add Post</a>
+                Welcome {{user?.name}}!
+                <a (click)="logout()">Logout</a>
+            </ng-container>
+        </nav>
+    </div>
+</header>

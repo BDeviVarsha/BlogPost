@@ -1,23 +1,95 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = 'https://localhost:7249/api/auth';
+  apiUrl = 'https://localhost:7249/api/Auth';
 
-  constructor(private http: HttpClient) { }
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  login(data: any) {
-    return this.http.post(`${this.apiUrl}/login`, data);
+  private currentUser: any = null;
+
+  constructor(private http: HttpClient) {
+    this.checkLoginStatus(); // restore state on refresh
+  }
+
+  getRoles(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/roles`);
   }
 
   register(data: any) {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
-  getRoles(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/roles`);
+
+  login(data: any) {
+    return this.http.post(`${this.apiUrl}/login`, data);
+  }
+
+  // ✅ Call this ONLY after successful API login
+  loginSuccess(user: any) {
+    console.log('AuthService.loginSuccess user:', user);
+    this.currentUser = user;
+    localStorage.setItem('user', JSON.stringify(user));
+    this.isLoggedInSubject.next(true);
+  }
+
+  logout(): Observable<any> {
+    // this.http.post(`${this.apiUrl}/logout`, {}); // fire-and-forget to ensure backend session cleanup
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const userId = user?.id ?? user?.userId ?? user?.ID ?? user?.userID;
+
+    if (!userId) {
+      console.warn('Logout skipped API call because no user ID was found in localStorage user object:', user);
+      this.currentUser = null;
+      localStorage.removeItem('user');
+      this.isLoggedInSubject.next(false);
+      return of(null);
+    }
+
+    console.log('Logging out user with ID:', userId, 'payload:', { userId });
+    return this.http.post(`${this.apiUrl}/logout`, { userId }).pipe(
+      tap(() => {
+        this.currentUser = null;
+        localStorage.removeItem('user');
+        this.isLoggedInSubject.next(false);
+      }),
+      catchError(err => {
+        console.error('Logout API failed', err);
+        this.currentUser = null;
+        localStorage.removeItem('user');
+        this.isLoggedInSubject.next(false);
+        return of(null);
+      })
+    );
+  }
+
+  // ✅ Restore login state on page refresh
+  checkLoginStatus() {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      this.currentUser = JSON.parse(user);
+      this.isLoggedInSubject.next(true);
+    } else {
+      this.isLoggedInSubject.next(false);
+    }
+  }
+
+  // ✅ Get logged-in user
+  getUser() {
+    if (!this.currentUser) {
+      this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+    }
+    console.log('AuthService.getUser returns:', this.currentUser);
+    return this.currentUser;
+  }
+
+  // optional helper
+  isLoggedIn(): boolean {
+    return !!this.currentUser || !!localStorage.getItem('user');
   }
 }

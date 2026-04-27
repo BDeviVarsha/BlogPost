@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@ang
 import { ChatService } from '../services/chat.service';
 import { Message } from './message';
 import { User } from './user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -9,25 +10,6 @@ import { User } from './user';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  // messages: Message[] = [];
-  // newMessage = '';
-  // userId = 1; // logged-in user
-  // receiverId = 2; // chat partner
-  // constructor(private chatService: ChatService) { }
-
-  // ngOnInit(): void {
-  //   this.chatService.startConnection(this.userId);
-  //   this.chatService.messages$.subscribe(messages => {
-  //     this.messages = messages;
-  //   });
-  // }
-
-  // sendMessage() {
-  //   if (!this.newMessage.trim()) return;
-
-  //   this.chatService.sendMessage(this.userId, this.receiverId, this.newMessage);
-  //   this.newMessage = '';
-  // }
 
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
@@ -38,31 +20,50 @@ export class ChatComponent implements OnInit {
   newMessage = '';
   userId = 1; // current user
   isTyping = false;
+  userName: string = '';
 
-  constructor(private signalRService: ChatService) { }
+  constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.signalRService.startConnection(this.userId);
+    const user = this.authService.getUser();
+    console.log('Logged in user:', user);
+    this.userId = user?.user?.id;
+    this.userName = user?.user?.name;
+
+    console.log('Chat component userId:', this.userId, 'userName:', this.userName);
+    
+    if (!this.userId) {
+      console.error('No valid user ID found. Chat will not work properly.');
+      return;
+    }
+    
+    this.chatService.startConnection(this.userId);
 
     // Get users
-    this.signalRService.users$.subscribe(users => {
+    this.chatService.users$.subscribe(users => {
+      console.log('Users received from SignalR:', users);
       this.users = users;
-      if (!this.activeUser && users.length > 0) {   // ✅ check length
+      console.log('Current users list:', this.users);
+      if (!this.activeUser && users.length > 0) {
+        console.log('Auto-selecting first user:', users[0]);
         this.selectUser(users[0]);
+      } else if (users.length === 0) {
+        console.log('No users received yet, waiting for server response...');
       }
     });
-
+  
     // Listen for messages
-    this.signalRService.messages$.subscribe(msgs => {
+    this.chatService.messages$.subscribe(msgs => {
       this.messages = msgs.filter(m => m.senderId === this.activeUserId || m.receiverId === this.activeUserId);
       this.scrollToBottom();
     });
 
     // Listen for typing
-    this.signalRService.typing$.subscribe(userId => {
+    this.chatService.typing$.subscribe(userId => {
       this.isTyping = userId === this.activeUserId;
     });
     console.log(this.activeUser);
+    console.log(this.activeUserId);
   }
 
   ngAfterViewChecked() {
@@ -77,12 +78,12 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     if (!this.newMessage.trim()) return;
-    this.signalRService.sendMessage(this.userId, this.activeUserId, this.newMessage);
+    this.chatService.sendMessage(this.userId, this.activeUserId, this.newMessage);
     this.newMessage = '';
   }
 
   sendTyping() {
-    this.signalRService.sendTyping(this.userId, this.activeUserId);
+    this.chatService.sendTyping(this.userId, this.activeUserId);
   }
 
   private scrollToBottom() {
@@ -90,4 +91,6 @@ export class ChatComponent implements OnInit {
       this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
     } catch { }
   }
+
+
 }
