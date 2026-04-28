@@ -13,10 +13,20 @@
                 <a routerLink="/AddPost">Add Post</a>
             </ng-container>
 
-            <ng-container *ngIf="isLoggedIn">
+            <ng-container *ngIf="isLoggedIn && user?.role !== 'Moderator'">
+                <i class="bi bi-chat-dots-fill"></i>
+                <a routerLink="/Chat">Chat</a>
+                <!-- <a routerLink="/Profile">Profile</a> -->
+                <a routerLink="/AddPost">Add Post</a>
+                Welcome {{user?.name}}!
+                <a (click)="logout()">Logout</a>
+            </ng-container>
+
+            <ng-container *ngIf="isLoggedIn && user?.role === 'Moderator'">
                 <i class="bi bi-chat-dots-fill"></i>
                 <a routerLink="/Chat">Chat</a>
                 <a routerLink="/AddPost">Add Post</a>
+                <a routerLink="/Moderation">Request</a>
                 Welcome {{user?.name}}!
                 <a (click)="logout()">Logout</a>
             </ng-container>

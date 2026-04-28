@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AddPostService } from '../services/add-post.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-add-post',
@@ -17,12 +18,11 @@ export class AddPostComponent {
   };
   postForm: FormGroup;
   isAnonymous: boolean = false;
-  constructor(private fb: FormBuilder, private service: AddPostService) {
+  constructor(private fb: FormBuilder, private service: AddPostService, private authService: AuthService) {
     this.postForm = this.fb.group({
-      name: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
-      file: [null, Validators.required]
+      file: [null]
     })
   }
 
@@ -40,11 +40,9 @@ export class AddPostComponent {
       this.postForm.patchValue({ file: selectedFile });
     }
   }
-  
+
   onSubmit() {
     const formData = new FormData();
-    
-    formData.append('name', this.postForm.get('name')?.value);
     formData.append('title', this.postForm.get('title')?.value);
     formData.append('description', this.postForm.get('description')?.value);
 

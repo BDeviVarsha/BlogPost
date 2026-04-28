@@ -1,0 +1,33 @@
+<h2>Pending Anonymous Posts</h2>
+<div *ngFor="let post of pendingPosts" class="post-card border p-3 mb-3">
+    <h4>{{ post.name }}</h4>
+    <h5>{{ post.title }}</h5>
+    <div [innerHTML]="post.description"></div>
+    <ng-container *ngIf="getFileUrl(getPostFilePath(post)) as fileUrl">
+        <ng-container *ngIf="isImage(getPostFilePath(post))">
+            <img [src]="fileUrl" alt="Post Image" style="max-width:200px" />
+        </ng-container>
+
+        <ng-container *ngIf="isAudio(getPostFilePath(post))">
+            <audio controls>
+                <source [src]="fileUrl" type="audio/mpeg" />
+            </audio>
+        </ng-container>
+
+        <ng-container *ngIf="isVideo(getPostFilePath(post))">
+            <video controls>
+                <source [src]="fileUrl" type="video/mp4" />
+            </video>
+        </ng-container>
+
+        <ng-container
+            *ngIf="!isImage(getPostFilePath(post)) && !isAudio(getPostFilePath(post)) && !isVideo(getPostFilePath(post))">
+            <a [href]="fileUrl" target="_blank">
+                {{ getFileName(getPostFilePath(post)) }}
+            </a>
+        </ng-container>
+    </ng-container>
+    <p><small>Author: {{ post.name }} | Status: {{ post.status }}</small></p>
+    <button (click)="approve(post.postId)">Approve</button>
+    <button (click)="reject(post.postId)">Reject</button>
+</div>

@@ -12,7 +12,7 @@ export class ChatService {
 
   private hubConnection!: signalR.HubConnection;
 
-  private messagesSubject = new BehaviorSubject<Message[]>([]);
+  private messagesSubject = new BehaviorSubject<Message | null>(null);
   messages$ = this.messagesSubject.asObservable();
 
   private usersSubject = new BehaviorSubject<User[]>([]);
@@ -21,6 +21,7 @@ export class ChatService {
   private typingSubject = new BehaviorSubject<number | null>(null);
   typing$ = this.typingSubject.asObservable();
   hubUrl = "https://localhost:7249/chathub";
+  apiUrl = "https://localhost:7249/api/Chat";
   constructor(private http: HttpClient) { }
 
   startConnection(currentUserId: number) {
@@ -36,8 +37,7 @@ export class ChatService {
 
     // Listen for messages
     this.hubConnection.on('ReceiveMessage', (message: Message) => {
-      const current = this.messagesSubject.getValue();
-      this.messagesSubject.next([...current, message]);
+      this.messagesSubject.next(message);
     });
 
     // Listen for users list
@@ -65,5 +65,9 @@ export class ChatService {
     if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {console.log('Hub not connected!'); return;}
     this.hubConnection.invoke('Typing', senderId, receiverId )
       .catch(err => console.error(err));
+  }
+
+  getMessages(senderId: number, receiverId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiUrl}/messages?user1=${senderId}&user2=${receiverId}`);
   }
 }

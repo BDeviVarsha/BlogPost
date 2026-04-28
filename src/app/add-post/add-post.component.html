@@ -1,13 +1,5 @@
-<p>add-post works!</p>
 <div class="card">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-        <div>
-            <label for="name">Author Name: </label>
-            <input type="text" id="name" formControlName="name">
-            <div *ngIf="postForm.controls['name'].touched && postForm.controls['name'].invalid">
-                Enter your name
-            </div>
-        </div>
         <div>
             <label for="title">Title: </label>
             <input type="text" id="title" formControlName="title">

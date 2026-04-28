@@ -90,15 +90,26 @@
   max-width: 70%;
   position: relative;
   word-wrap: break-word;
+  display: inline-block;
 }
 
 .my-message {
-  align-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.my-message .message-bubble {
   background-color: #dcf8c6;
 }
 
 .friend-message {
-  align-self: flex-start;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.friend-message .message-bubble {
   background-color: #fff;
   border: 1px solid #ccc;
 }

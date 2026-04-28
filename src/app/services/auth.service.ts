@@ -29,16 +29,26 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, data);
   }
 
-  // ✅ Call this ONLY after successful API login
-  loginSuccess(user: any) {
-    console.log('AuthService.loginSuccess user:', user);
+  loginSuccess(response: any) {
+    const token = response?.token || response?.accessToken;
+    const user = response?.user || response;
+
+    if (!token) {
+      console.error('AuthService.loginSuccess: missing token in login response', response);
+      throw new Error('Missing authentication token');
+    }
+
     this.currentUser = user;
+    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     this.isLoggedInSubject.next(true);
   }
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
   logout(): Observable<any> {
-    // this.http.post(`${this.apiUrl}/logout`, {}); // fire-and-forget to ensure backend session cleanup
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     const userId = user?.id ?? user?.userId ?? user?.ID ?? user?.userID;
 
@@ -46,6 +56,7 @@ export class AuthService {
       console.warn('Logout skipped API call because no user ID was found in localStorage user object:', user);
       this.currentUser = null;
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
       this.isLoggedInSubject.next(false);
       return of(null);
     }
@@ -55,12 +66,14 @@ export class AuthService {
       tap(() => {
         this.currentUser = null;
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         this.isLoggedInSubject.next(false);
       }),
       catchError(err => {
         console.error('Logout API failed', err);
         this.currentUser = null;
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         this.isLoggedInSubject.next(false);
         return of(null);
       })

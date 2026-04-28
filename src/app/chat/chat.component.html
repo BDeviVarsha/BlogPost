@@ -1,10 +1,7 @@
 <div class="chat-app">
   <!-- User list -->
   <div class="user-list">
-    <div *ngFor="let user of users" 
-         class="user-item" 
-         [ngClass]="{'active': user.id === activeUserId}"
-         (click)="selectUser(user)">
+    <div *ngFor="let user of users" class="user-item" [ngClass]="{'active': user.id === activeUserId}" (click)="selectUser(user)">
       <!-- <img [src]="user.avatarUrl" class="avatar" /> -->
       <div class="user-info">
         <div class="user-name">{{ user.name }}</div>
@@ -29,11 +26,11 @@
 
     <div class="chat-messages" #messageContainer>
       <div *ngFor="let msg of messages" 
-           [ngClass]="{'my-message': msg.senderId === userId, 'friend-message': msg.senderId !== userId}">
+           [ngClass]="{'my-message': isMyMessage(msg), 'friend-message': !isMyMessage(msg)}">
         <div class="message-bubble">
           {{ msg.content }}
           <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
-          <span class="seen" *ngIf="msg.senderId === userId">{{ msg.seen ? '✓✓' : '✓' }}</span>
+          <span class="seen" *ngIf="isMyMessage(msg)">{{ msg.seen ? '✓✓' : '✓' }}</span>
         </div>
       </div>
       <div class="typing-indicator" *ngIf="isTyping">{{ activeUser.name }} is typing...</div>

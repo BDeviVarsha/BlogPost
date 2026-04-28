@@ -15,13 +15,10 @@ export class NavbarComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    // console.log('Navbar initialized. Logged in status:', this.isLoggedIn);
     this.authService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
       this.user = status ? this.authService.getUser() : null;
-      // console.log('Navbar auth status:', status, 'user:', this.user);
     });
-    // console.log('Navbar initialized. Logged in status:', this.isLoggedIn);
     this.authService.checkLoginStatus();
     this.user = this.authService.getUser();
     console.log('User name:', this.user?.name);
@@ -38,7 +35,7 @@ export class NavbarComponent {
         this.router.navigate(['/Login']);
       },
       error: (err) => {
-        // console.error('Logout error', err);
+        console.error('Logout error', err);
         alert('Logout failed, please try again');
         this.router.navigate(['/Login']);
       }

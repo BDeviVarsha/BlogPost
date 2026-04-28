@@ -9,9 +9,11 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AddPostComponent } from './add-post/add-post.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ModerationComponent } from './moderation/moderation.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     AddPostComponent,
     ChatComponent,
     NavbarComponent,
+    ModerationComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,13 @@ import { NavbarComponent } from './navbar/navbar.component';
     HttpClientModule,
     CKEditorModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

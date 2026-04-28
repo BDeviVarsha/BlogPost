@@ -35,32 +35,28 @@ export class LoginComponent {
   }
 
   onSubmit() {
-
     this.authService.login(this.loginForm.value).subscribe({
       next: (user: any) => {
-
-        if (!user) {
-          alert('Invalid credentials');
+        if (!user || !(user.token || user.accessToken)) {
+          console.error('Login response missing token:', user);
+          alert('Login failed: missing auth token');
           return;
         }
 
         this.authService.loginSuccess(user);
 
         alert('Logged in successfully');
-        this.router.navigate(['/Home']);
+        console.log('Logged in user:', user);
+        if (user?.user?.role === 'Moderator') {
+          this.router.navigate(['/Moderation']);
+        } else {
+          this.router.navigate(['/Home']);
+        }
       },
-
       error: (err: any) => {
         console.error(err);
         alert('Invalid credentials');
       }
     });
-
   }
-
-  // onLogout() {
-  //   this.authService.logout();
-  //   alert('Logged out successfully');
-  //   this.router.navigate(['/login']);
-  // }
 }

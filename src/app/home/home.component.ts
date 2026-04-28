@@ -22,7 +22,6 @@ export class HomeComponent {
       return '';
     }
     return filePath.split('/').pop() || '';
-    
   }
 
   getPostFilePath(post: Posts): string | undefined {
