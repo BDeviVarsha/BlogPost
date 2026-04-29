@@ -24,14 +24,10 @@ export class LoginComponent {
   }
 
   loadRoles() {
-    this.authService.getRoles().subscribe(
-      (data) => {
-        this.roles = data;
-      },
-      (err) => {
-        console.error('Error fetching roles', err);
-      }
-    );
+    this.authService.getRoles().subscribe({
+      next:(data)=>{this.roles = data;},
+      error:(err)=>{console.error('Error fetching roles', err);}
+    });
   }
 
   onSubmit() {
