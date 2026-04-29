@@ -80,7 +80,7 @@ export class AuthService {
     );
   }
 
-  // ✅ Restore login state on page refresh
+  // Restore login state on page refresh
   checkLoginStatus() {
     const user = localStorage.getItem('user');
 
@@ -92,12 +92,12 @@ export class AuthService {
     }
   }
 
-  // ✅ Get logged-in user
+  // Get logged-in user
   getUser() {
     if (!this.currentUser) {
       this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
     }
-    console.log('AuthService.getUser returns:', this.currentUser);
+    // console.log('AuthService.getUser returns:', this.currentUser);
     return this.currentUser;
   }
 

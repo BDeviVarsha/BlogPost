@@ -1,0 +1,76 @@
+/* Form container */
+form {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Each field container */
+form div {
+  margin-bottom: 18px;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* Inputs and select */
+
+input, select {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Error messages */
+.text-danger {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  padding: 11px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive for small devices */
+@media (max-width: 480px) {
+  form {
+    padding: 20px;
+    margin: 20px;
+  }
+}

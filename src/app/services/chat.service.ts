@@ -20,6 +20,7 @@ export class ChatService {
 
   private typingSubject = new BehaviorSubject<number | null>(null);
   typing$ = this.typingSubject.asObservable();
+
   hubUrl = "https://localhost:7249/chathub";
   apiUrl = "https://localhost:7249/api/Chat";
   constructor(private http: HttpClient) { }
@@ -31,8 +32,7 @@ export class ChatService {
       .build();
 
     this.hubConnection
-      .start()
-      .then(() => console.log('SignalR connection started'))
+      .start().then(() => console.log('SignalR connection started'))
       .catch(err => console.error('Error starting SignalR connection: ', err));
 
     // Listen for messages

@@ -23,9 +23,14 @@ export class ModerationComponent {
     return filePath.split('/').pop() || '';
   }
 
-  getPostFilePath(post: Posts): string | undefined {
-    return post.filePath;
+  getPostFiles(post: Posts): string[] {
+    if (!post.filePath) return [];
+    return post.filePath.split(',').map(f => f.trim()).filter(f => f); // remove empty entries
   }
+
+  // getPostFilePath(post: Posts): string | undefined {
+  //   return post.filePath;
+  // }
 
   getFileUrl(filePath?: string): string | undefined {
     return this.service.getFileUrl(filePath);

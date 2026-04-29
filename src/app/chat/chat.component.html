@@ -26,11 +26,11 @@
 
     <div class="chat-messages" #messageContainer>
       <div *ngFor="let msg of messages" 
-           [ngClass]="{'my-message': isMyMessage(msg), 'friend-message': !isMyMessage(msg)}">
+           [ngClass]="{'my-message': msg.sender_Id === this.userId, 'friend-message': msg.sender_Id !== this.userId}">
         <div class="message-bubble">
           {{ msg.content }}
           <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
-          <span class="seen" *ngIf="isMyMessage(msg)">{{ msg.seen ? '✓✓' : '✓' }}</span>
+          <!-- <span class="seen" *ngIf="msg.senderId === this.userId">{{ msg.seen ? '✓✓' : '✓' }}</span> -->
         </div>
       </div>
       <div class="typing-indicator" *ngIf="isTyping">{{ activeUser.name }} is typing...</div>

@@ -1,6 +1,88 @@
 @import 'ckeditor5/ckeditor5.css';
-/* .card{
-    padding: auto;
-    margin: 30px;
 
-} */
+ /* Card container */
+.card {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px 30px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Field container */
+form div {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+/* Inputs and select */
+input{
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* CKEditor container */
+.ck-editor__editable_inline {
+  min-height: 150px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Error messages */
+.text-danger {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* Submit button */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Multiple file input styling */
+input[type="file"][multiple] {
+  padding: 6px;
+}
+
+/* Responsive for smaller devices */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+    margin: 20px;
+  }
+}

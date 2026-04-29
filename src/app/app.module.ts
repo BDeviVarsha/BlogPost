@@ -24,7 +24,7 @@ import { ModerationComponent } from './moderation/moderation.component';
     AddPostComponent,
     ChatComponent,
     NavbarComponent,
-    ModerationComponent,
+    ModerationComponent
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,7 @@ export class ChatComponent implements OnInit {
   activeUserId!: number;
   messages: Message[] = [];
   newMessage = '';
-  userId!: number; // current user
+  userId!: number;
   isTyping = false;
   userName: string = '';
 
@@ -33,17 +33,17 @@ export class ChatComponent implements OnInit {
       console.error('No valid user ID found. Chat will not work properly.');
       return;
     }
-    
+
     this.chatService.startConnection(this.userId);
 
     // Get users
     this.chatService.users$.subscribe(users => {
       this.users = users;
     });
-  
+
     // Listen for messages
     this.chatService.messages$.subscribe(msg => {
-      if (msg && (msg.senderId === this.activeUserId || msg.receiverId === this.activeUserId)) {
+      if (msg && ((msg.sender_Id === this.activeUserId && msg.receiver_Id === this.userId )||(msg.sender_Id === this.userId && msg.receiver_Id === this.activeUserId))){
         this.messages.push(msg);
         this.scrollToBottom();
       }
@@ -67,29 +67,35 @@ export class ChatComponent implements OnInit {
     this.messages = []; // Clear previous
     this.chatService.getMessages(this.userId, this.activeUserId).subscribe(history => {
       this.messages = history;
-      console.log('Chat history with', this.activeUser.name, history);
       this.scrollToBottom();
     });
   }
 
   sendMessage() {
     if (!this.newMessage.trim()) return;
+    const msg: Message = {
+      sender_Id: this.userId,
+      receiver_Id: this.activeUserId,
+      content: this.newMessage,
+      timestamp: new Date(),
+      seen: false
+    };
+    this.messages.push(msg);
+    // this.scrollToBottom();
     this.chatService.sendMessage(this.userId, this.activeUserId, this.newMessage);
     this.newMessage = '';
-    console.log(this.userId, this.activeUserId, this.newMessage);
   }
 
   sendTyping() {
     this.chatService.sendTyping(this.userId, this.activeUserId);
   }
 
-  isMyMessage(msg: Message): boolean {
-    return msg.senderId === this.userId;
-  }
 
   private scrollToBottom() {
     try {
       this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
-    } catch { }
+    } catch (err) {
+      console.error('Could not scroll to bottom:', err);
+    }
   }
 }

@@ -16,7 +16,7 @@
         </div>
         <div>
             <label for="attach">Attachment Files: </label>
-            <input type="file" id="attach" (change)="onFileSelected($event)">
+            <input type="file" id="attach" (change)="onFileSelected($event)" multiple>
         </div>
         <button type="submit" [disabled]="postForm.invalid">Create Post</button>
     </form>

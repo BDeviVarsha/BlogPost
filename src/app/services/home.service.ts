@@ -12,8 +12,8 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
-  getPosts(): Observable<Posts[]> {
-    return this.http.get<Posts[]>(`${this.apiUrl}/posts`);
+  getPosts(page: number, limit: number): Observable<{posts: Posts[], totalPosts: number}> {
+    return this.http.get<{posts: Posts[], totalPosts: number}>(`${this.apiUrl}/posts?page=${page}&limit=${limit}`);
   }
 
   getFileUrl(filePath?: string): string | undefined {
@@ -27,7 +27,6 @@ export class HomeService {
       console.warn('Could not extract fileName from filePath:', filePath);
       return undefined;
     }
-
     return `${this.apiUrl}/file/${fileName}`;
   }
 }

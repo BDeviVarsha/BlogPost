@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HomeService } from '../services/home.service';
 import { Posts } from './posts';
 
@@ -9,27 +9,49 @@ import { Posts } from './posts';
 })
 export class HomeComponent {
   Posts: Posts[] = [];
+  page = 1;
+  limit = 10;
+  totalPosts = 0;
+  loading = false;
 
   constructor(private service: HomeService) { }
 
   ngOnInit(): void {
-    this.service.getPosts().subscribe((data) => {
-      this.Posts = data;
+    this.loadPosts();
+  }
+
+  loadPosts() {
+    if (this.loading) return;
+    this.loading = true;
+
+    this.service.getPosts(this.page, this.limit).subscribe({
+      next: (data) => {
+        this.Posts.push(...data.posts);
+        this.totalPosts = data.totalPosts;
+        this.page++;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load posts', err);
+        this.loading = false;
+      }
     });
   }
+
+  getFileUrl(filePath?: string): string | undefined {
+    return this.service.getFileUrl(filePath);
+  }
+
+  getPostFiles(post: Posts): string[] {
+    if (!post.filePath) return [];
+    return post.filePath.split(',').map(f => f.trim()).filter(f => f);
+  }
+
   getFileName(filePath?: string): string {
     if (!filePath) {
       return '';
     }
     return filePath.split('/').pop() || '';
-  }
-
-  getPostFilePath(post: Posts): string | undefined {
-    return post.filePath;
-  }
-
-  getFileUrl(filePath?: string): string | undefined {
-    return this.service.getFileUrl(filePath);
   }
 
   isImage(fileName?: string): boolean {
@@ -42,5 +64,16 @@ export class HomeComponent {
 
   isVideo(fileName?: string): boolean {
     return !!fileName && /\.mp4$/i.test(fileName);
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.scrollHeight;
+
+    if (scrollTop + windowHeight >= bodyHeight && !this.loading) {
+      this.loadPosts();
+    }
   }
 }
