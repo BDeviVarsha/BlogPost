@@ -1,44 +1,47 @@
-<header>
-    <div class="main">
-        <div>
-            <a routerLink="">
-                <h3>Blog Post</h3>
+<header class="navbar">
+    <div class="nav-left">
+        <a routerLink="/" class="logo">BlogPost</a>
+    </div>
+
+    <div class="nav-right">
+        <a routerLink="/">Home</a>
+        <a routerLink="/AddPost">Add Post</a>
+
+        <!-- Not logged in -->
+        <ng-container *ngIf="!isLoggedIn">
+            <a routerLink="/Login" class="btn-outline">Login</a>
+            <a routerLink="/Register" class="btn-primary">Register</a>
+        </ng-container>
+
+        <!-- Logged in -->
+        <ng-container *ngIf="isLoggedIn">
+
+            <a routerLink="/Chat" class="icon">
+                <i class="bi bi-chat-dots"></i>
             </a>
-        </div>
 
-        <nav class="side">
-            <ng-container *ngIf="!isLoggedIn">
-                <a routerLink="/Register">Register</a>
-                <a routerLink="/Login">Login</a>
-                <a routerLink="/AddPost">Add Post</a>
-            </ng-container>
+            <!-- Moderator -->
+            <a *ngIf="user?.role === 'Moderator'" routerLink="/Moderation">
+                Requests
+            </a>
 
-            <ng-container *ngIf="isLoggedIn && user?.role !== 'Moderator' && user?.role !== 'Admin'">
-                <i class="bi bi-chat-dots-fill"></i>
-                <a routerLink="/Chat">Chat</a>
-                <!-- <a routerLink="/Profile">Profile</a> -->
-                <a routerLink="/AddPost">Add Post</a>
-                Welcome {{user?.name}}!
-                <a (click)="logout()">Logout</a>
-            </ng-container>
+            <!-- Admin -->
+            <a *ngIf="user?.role === 'Admin'" routerLink="/Admin">
+                Dashboard
+            </a>
 
-            <ng-container *ngIf="isLoggedIn && user?.role === 'Moderator'">
-                <i class="bi bi-chat-dots-fill"></i>
-                <a routerLink="/Chat">Chat</a>
-                <a routerLink="/AddPost">Add Post</a>
-                <a routerLink="/Moderation">Request</a>
-                Welcome {{user?.name}}!
-                <a (click)="logout()">Logout</a>
-            </ng-container>
+            <a routerLink="/MyPosts">My Posts</a>
 
-            <ng-container *ngIf="isLoggedIn && user?.role === 'Admin'">
-                <i class="bi bi-chat-dots-fill"></i>
-                <a routerLink="/Chat">Chat</a>
-                <a routerLink="/AddPost">Add Post</a>
-                <a routerLink="/Admin">Dashboard</a>
-                Welcome {{user?.name}}!
-                <a (click)="logout()">Logout</a>
-            </ng-container>
-        </nav>
+            <!-- User dropdown -->
+            <div class="user-menu" (click)="toggleMenu()">
+                <span>{{ user?.name }}</span>
+                <i class="bi bi-caret-down-fill"></i>
+
+                <div class="dropdown" *ngIf="showMenu">
+                    <a routerLink="/profile">Profile</a>
+                    <a (click)="logout()">Logout</a>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </header>

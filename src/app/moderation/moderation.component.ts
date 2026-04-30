@@ -16,6 +16,44 @@ export class ModerationComponent {
   ngOnInit() {
     this.loadPendingPosts();
   }
+
+  selectedPostId: number | null = null;
+  selectedReason: string = '';
+  customReason: string = '';
+
+  reasons: string[] = [
+    'Spam',
+    'Offensive',
+    'Irrelevant',
+    'Duplicate',
+    'Other'
+  ];
+
+  openReject(postId: number) {
+    this.selectedPostId = postId;
+    this.selectedReason = '';
+    this.customReason = '';
+  }
+
+  confirmReject(postId: number) {
+    let finalReason = this.selectedReason;
+
+    if (this.selectedReason === 'Other') {
+      finalReason = this.customReason;
+    }
+
+    if (!finalReason) {
+      alert('Please select or enter a reason');
+      return;
+    }
+
+    this.moderationService.rejectPost(postId, finalReason)
+      .subscribe(() => {
+        this.selectedPostId = null;
+        this.loadPendingPosts(); // refresh list
+      });
+  }
+
   getFileName(filePath?: string): string {
     if (!filePath) {
       return '';
@@ -27,10 +65,6 @@ export class ModerationComponent {
     if (!post.filePath) return [];
     return post.filePath.split(',').map(f => f.trim()).filter(f => f); // remove empty entries
   }
-
-  // getPostFilePath(post: Posts): string | undefined {
-  //   return post.filePath;
-  // }
 
   getFileUrl(filePath?: string): string | undefined {
     return this.service.getFileUrl(filePath);
@@ -57,7 +91,7 @@ export class ModerationComponent {
   }
 
   reject(postId: number) {
-    this.moderationService.rejectPost(postId).subscribe(() => this.loadPendingPosts());
+    this.moderationService.rejectPost(postId, this.selectedReason).subscribe(() => this.loadPendingPosts());
   }
 
 }

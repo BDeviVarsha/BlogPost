@@ -45,7 +45,11 @@ export class LoginComponent {
         console.log('Logged in user:', user);
         if (user?.user?.role === 'Moderator') {
           this.router.navigate(['/Moderation']);
-        } else {
+        }
+        else if (user?.user?.role === 'Admin') {
+          this.router.navigate(['/Admin']);
+        }
+        else{
           this.router.navigate(['/Home']);
         }
       },

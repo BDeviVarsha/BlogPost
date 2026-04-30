@@ -29,8 +29,22 @@
             </ng-container>
         </ng-container>
         <br>
-        <!-- <p><small>Author: {{ post.name }} | Status: {{ post.status }}</small></p> -->
         <button (click)="approve(post.postId)">Approve</button>
-        <button (click)="reject(post.postId)">Reject</button>
+
+        <button (click)="openReject(post.postId)">Reject</button>
+
+        <div *ngIf="selectedPostId === post.postId" class="mt-2">
+
+            <select [(ngModel)]="selectedReason">
+                <option value="">Select reason</option>
+                <option *ngFor="let r of reasons" [value]="r">{{ r }}</option>
+            </select>
+
+            <div *ngIf="selectedReason === 'Other'">
+                <input type="text" [(ngModel)]="customReason" placeholder="Enter reason" />
+            </div>
+
+            <button (click)="confirmReject(post.postId)">Submit</button>
+        </div>
     </div>
 </div>

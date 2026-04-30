@@ -24,9 +24,11 @@ export class ModerationService {
     });
   }
 
-  rejectPost(postId: number) {
-    return this.http.post(`${this.apiUrl}/reject/${postId}`, null, {
-      headers: { Authorization: `Bearer ${this.auth.getToken()}` }
-    });
+  rejectPost(postId: number, reason: string) {
+    return this.http.post(`${this.apiUrl}/reject/${postId}`, { reason },
+      {
+        headers: { Authorization: `Bearer ${this.auth.getToken()}` }
+      }
+    );
   }
 }

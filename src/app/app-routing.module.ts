@@ -6,6 +6,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AddPostComponent } from './add-post/add-post.component';
 import { ChatComponent } from './chat/chat.component';
 import { ModerationComponent } from './moderation/moderation.component';
+import { MyPostsComponent } from './my-posts/my-posts.component';
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./admin/admin.module').then(m => m.AdminModule)
   },
+  {path:'MyPosts', component:MyPostsComponent}
 ];
 
 @NgModule({

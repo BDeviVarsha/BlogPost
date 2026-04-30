@@ -14,6 +14,7 @@ import { ChatComponent } from './chat/chat.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthInterceptor} from './interceptors/auth.interceptor';
 import { ModerationComponent } from './moderation/moderation.component';
+import { MyPostsComponent } from './my-posts/my-posts.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ModerationComponent } from './moderation/moderation.component';
     AddPostComponent,
     ChatComponent,
     NavbarComponent,
-    ModerationComponent
+    ModerationComponent,
+    MyPostsComponent
   ],
   imports: [
     BrowserModule,

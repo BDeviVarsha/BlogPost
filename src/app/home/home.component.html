@@ -1,7 +1,7 @@
 <!-- <p>Home works</p> -->
 <div class="main border p-3 mb-3" *ngFor="let post of Posts">
     <h5>Author Name: {{ post.name }}</h5>
-    <div class="main">
+    <div class="main border p-3 mb-3">
         <h4>{{ post.title }}</h4>
         <div [innerHTML]="post.description"></div>
 

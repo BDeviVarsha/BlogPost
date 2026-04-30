@@ -41,5 +41,9 @@ export class NavbarComponent {
       }
     });
   }
+  showMenu = false;
 
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
 }

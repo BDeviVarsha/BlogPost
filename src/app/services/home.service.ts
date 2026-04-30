@@ -29,4 +29,7 @@ export class HomeService {
     }
     return `${this.apiUrl}/file/${fileName}`;
   }
+  getMyPosts(): Observable<Posts[]> {
+    return this.http.get<Posts[]>(`${this.apiUrl}/my-posts`);
+  }
 }
