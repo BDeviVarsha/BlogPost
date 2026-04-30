@@ -12,8 +12,8 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
-  getPosts(page: number, limit: number): Observable<{posts: Posts[], totalPosts: number}> {
-    return this.http.get<{posts: Posts[], totalPosts: number}>(`${this.apiUrl}/posts?page=${page}&limit=${limit}`);
+  getPosts(page: number, limit: number): Observable<{ posts: Posts[], totalPosts: number }> {
+    return this.http.get<{ posts: Posts[], totalPosts: number }>(`${this.apiUrl}/posts?page=${page}&limit=${limit}`);
   }
 
   getFileUrl(filePath?: string): string | undefined {
@@ -31,5 +31,8 @@ export class HomeService {
   }
   getMyPosts(): Observable<Posts[]> {
     return this.http.get<Posts[]>(`${this.apiUrl}/my-posts`);
+  }
+  deletePost(postId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/my-posts/${postId}`);
   }
 }

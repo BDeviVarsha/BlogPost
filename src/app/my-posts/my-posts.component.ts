@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { Posts } from '../home/posts';
-import { HomeService } from '../services/home.service';
+import { Component } from "@angular/core";
+import { Posts } from "../home/posts";
+import { HomeService } from "../services/home.service";
+import { BrowserModule } from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-my-posts',
-  templateUrl: './my-posts.component.html',
-  styleUrls: ['./my-posts.component.css']
+  selector: "app-my-posts",
+  templateUrl: "./my-posts.component.html",
+  styleUrls: ["./my-posts.component.css"]
 })
 export class MyPostsComponent {
   myPosts: Posts[] = [];
@@ -22,21 +23,45 @@ export class MyPostsComponent {
         this.myPosts = data;
       },
       error: (err) => {
-        console.error('Failed to load posts', err);
-      }
+        console.error("Failed to load posts", err);
+      },
     });
+  }
+
+  deletePost(post: Posts) {
+    const confirmed = confirm("Are you sure you want to delete this post?");
+    if (!confirmed) return;
+    else {
+      this.service.deletePost(post.postId).subscribe({
+        next: () => {
+          this.myPosts = this.myPosts.filter((p) => p.postId !== post.postId);
+          console.log("Post deleted successfully:", post);
+        },
+        error: (err) => {
+          console.error("Failed to delete post", err);
+        },
+      });
+    }
+  }
+
+  editPost(post: Posts) {
+    // Implement edit functionality here
+    console.log("Edit post:", post);
   }
 
   getFileName(filePath?: string): string {
     if (!filePath) {
-      return '';
+      return "";
     }
-    return filePath.split('/').pop() || '';
+    return filePath.split("/").pop() || "";
   }
 
   getPostFiles(post: Posts): string[] {
     if (!post.filePath) return [];
-    return post.filePath.split(',').map(f => f.trim()).filter(f => f); // remove empty entries
+    return post.filePath
+      .split(",")
+      .map((f) => f.trim())
+      .filter((f) => f); // remove empty entries
   }
 
   getFileUrl(filePath?: string): string | undefined {

@@ -6,28 +6,31 @@
 
         <div class="post-media">
             <ng-container *ngFor="let filePath of getPostFiles(post)">
-            <ng-container *ngIf="getFileUrl(filePath) as fileUrl">
-                <ng-container *ngIf="isImage(filePath)">
-                    <img [src]="fileUrl" alt="Post Image" style="max-width:200px" /> &nbsp;
-                </ng-container>
+                <ng-container *ngIf="getFileUrl(filePath) as fileUrl">
+                    <ng-container *ngIf="isImage(filePath)">
+                        <img [src]="fileUrl" alt="Post Image" style="max-width:200px" /> &nbsp;
+                    </ng-container>
 
-                <ng-container *ngIf="isAudio(filePath)">
-                    <audio controls>
-                        <source [src]="fileUrl" type="audio/mpeg" /> &nbsp;
-                    </audio>
-                </ng-container>
+                    <ng-container *ngIf="isAudio(filePath)">
+                        <audio controls>
+                            <source [src]="fileUrl" type="audio/mpeg" /> &nbsp;
+                        </audio>
+                    </ng-container>
 
-                <ng-container *ngIf="isVideo(filePath)">
-                    <video controls>
-                        <source [src]="fileUrl" type="video/mp4" /> &nbsp;
-                    </video>
-                </ng-container>
+                    <ng-container *ngIf="isVideo(filePath)">
+                        <video controls>
+                            <source [src]="fileUrl" type="video/mp4" /> &nbsp;
+                        </video>
+                    </ng-container>
 
-                <ng-container *ngIf="!isImage(filePath) && !isAudio(filePath) && !isVideo(filePath)">
-                    <a [href]="fileUrl" target="_blank">{{ getFileName(filePath) }}</a>
+                    <ng-container *ngIf="!isImage(filePath) && !isAudio(filePath) && !isVideo(filePath)">
+                        <a [href]="fileUrl" target="_blank">{{ getFileName(filePath) }}</a>
+                    </ng-container>
                 </ng-container>
             </ng-container>
-        </ng-container>
-        </div>
+        </div> <br>
+        <p *ngIf="post.status==='Rejected'" class="text-danger"> {{post.status}} </p>
+        <button *ngIf="post.status!=='Rejected'" (click)="deletePost(post)">Delete</button> &nbsp;
+        <!-- <button *ngIf="post.status!=='Rejected'" (click)="editPost(post)">Edit</button> -->
     </div>
 </div>
