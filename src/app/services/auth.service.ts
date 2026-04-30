@@ -105,4 +105,13 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.currentUser || !!localStorage.getItem('user');
   }
+
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return payload['role'] || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  }
 }

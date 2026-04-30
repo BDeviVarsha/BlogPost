@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthInterceptor} from './interceptors/auth.interceptor';
 import { ModerationComponent } from './moderation/moderation.component';
 
 @NgModule({

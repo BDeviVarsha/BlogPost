@@ -1,8 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AddPostService } from '../services/add-post.service';
-import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-add-post',

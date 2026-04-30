@@ -13,7 +13,7 @@
                 <a routerLink="/AddPost">Add Post</a>
             </ng-container>
 
-            <ng-container *ngIf="isLoggedIn && user?.role !== 'Moderator'">
+            <ng-container *ngIf="isLoggedIn && user?.role !== 'Moderator' && user?.role !== 'Admin'">
                 <i class="bi bi-chat-dots-fill"></i>
                 <a routerLink="/Chat">Chat</a>
                 <!-- <a routerLink="/Profile">Profile</a> -->
@@ -27,6 +27,15 @@
                 <a routerLink="/Chat">Chat</a>
                 <a routerLink="/AddPost">Add Post</a>
                 <a routerLink="/Moderation">Request</a>
+                Welcome {{user?.name}}!
+                <a (click)="logout()">Logout</a>
+            </ng-container>
+
+            <ng-container *ngIf="isLoggedIn && user?.role === 'Admin'">
+                <i class="bi bi-chat-dots-fill"></i>
+                <a routerLink="/Chat">Chat</a>
+                <a routerLink="/AddPost">Add Post</a>
+                <a routerLink="/Admin">Dashboard</a>
                 Welcome {{user?.name}}!
                 <a (click)="logout()">Logout</a>
             </ng-container>

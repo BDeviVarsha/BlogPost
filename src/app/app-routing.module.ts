@@ -14,7 +14,12 @@ const routes: Routes = [
   {path:'Register', component:RegisterComponent},
   {path:'AddPost', component:AddPostComponent},
   {path:'Chat', component:ChatComponent},
-  {path:'Moderation', component:ModerationComponent}
+  {path:'Moderation', component:ModerationComponent},
+  {
+    path: 'Admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then(m => m.AdminModule)
+  },
 ];
 
 @NgModule({
