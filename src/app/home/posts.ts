@@ -4,5 +4,7 @@ export interface Posts {
     title: string,
     description: string,
     filePath?: string,
-    status: string
+    status: string,
+    is_deleted?: boolean,
+    deleted_Reason?: string
 }

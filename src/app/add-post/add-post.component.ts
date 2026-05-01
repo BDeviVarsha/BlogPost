@@ -23,7 +23,7 @@ export class AddPostComponent {
     this.postForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      file: [null]
+      // file: [null]
     });
   }
 

@@ -29,7 +29,7 @@
                 </ng-container>
             </ng-container>
         </div> <br>
-        <p *ngIf="post.status==='Rejected'" class="text-danger"> {{post.status}} </p>
+        <p *ngIf="post.is_deleted===true" class="text-danger">Post deleted. Reason: {{post.deleted_Reason}}</p>
         <button *ngIf="post.status!=='Rejected'" (click)="deletePost(post)">Delete</button> &nbsp;
         <!-- <button *ngIf="post.status!=='Rejected'" (click)="editPost(post)">Edit</button> -->
     </div>

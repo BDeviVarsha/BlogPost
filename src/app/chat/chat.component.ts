@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ChatComponent implements OnInit {
 
-  @ViewChild('messageContainer') private messageContainer!: ElementRef;
+  @ViewChild('messageContainer', {static:false}) private messageContainer!: ElementRef;
 
   users: User[] = [];
   activeUser!: User;
@@ -67,7 +67,7 @@ export class ChatComponent implements OnInit {
     this.messages = []; // Clear previous
     this.chatService.getMessages(this.userId, this.activeUserId).subscribe(history => {
       this.messages = history;
-      this.scrollToBottom();
+      // this.scrollToBottom();
     });
   }
 

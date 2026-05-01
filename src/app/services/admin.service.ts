@@ -14,17 +14,16 @@ export class AdminService {
     return this.http.get<any>(`${this.baseUrl}/posts`);
   }
 
-  deletePost(id: number) {
-    return this.http.delete(`${this.baseUrl}/posts/${id}`);
+  deletePost(id: number, reason: string) {
+    return this.http.put(`${this.baseUrl}/posts/${id}/delete`, { reason });
   }
 
-  rejectPost(id: number) {
-    return this.http.put(
-      `https://localhost:7249/api/Admin/posts/${id}/reject`,{ });
+  rejectPost(id: number, reason: string) {
+    return this.http.put(`${this.baseUrl}/posts/${id}/reject`, { reason });
   }
 
   approvePost(id: number) {
     return this.http.put(
-      `https://localhost:7249/api/Admin/posts/${id}/approve`, {});
+      `${this.baseUrl}/posts/${id}/approve`, {});
   }
 }

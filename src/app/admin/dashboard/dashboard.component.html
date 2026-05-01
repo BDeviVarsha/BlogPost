@@ -7,6 +7,7 @@
                 <th>Author</th>
                 <th>Title</th>
                 <th>Status</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,18 +20,45 @@
                 <td [innerHTML]="post.description"> </td>
 
                 <td>
-                    <button *ngIf="post.status==='Pending'" class="btn btn-success btn-sm"
-                        (click)="approvePost(post.postId)">
-                        Approve
-                    </button>
-                    <button *ngIf="post.status==='Pending'" class="btn btn-warning btn-sm ms-2"
-                        (click)="rejectPost(post.postId)">
-                        Reject
-                    </button>
-                    <button *ngIf="post.status==='Approved'" class="btn btn-danger btn-sm ms-2"
-                        (click)="deletePost(post.postId)">
-                        Delete
-                    </button>
+                    <div *ngIf="post.status==='Pending'">
+                        <button class="btn btn-success btn-sm" (click)="approvePost(post.postId)">
+                            Approve
+                        </button>
+
+                        <button (click)="openReject(post.postId)" class="btn btn-warning btn-sm ms-2">Reject</button>
+
+                        <div *ngIf="selectedPostId === post.postId" class="mt-2">
+
+                            <select [(ngModel)]="selectedRejectReason">
+                                <option value="">Select Reject reason</option>
+                                <option *ngFor="let r of reasons" [value]="r">{{ r }}</option>
+                            </select>
+
+                            <div *ngIf="selectedRejectReason === 'Other'">
+                                <input type="text" [(ngModel)]="customRejectReason" placeholder="Enter reason" />
+                            </div>
+
+                            <button (click)="confirmReject(post.postId)" class="btn btn-warning btn-sm">Submit</button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="post.status==='Approved'">
+                        <button (click)="openDelete(post.postId)"
+                            class="btn btn-danger btn-sm ms-2">Delete</button>
+
+                        <div *ngIf="selectedPostId === post.postId" class="mt-2">
+                            <select [(ngModel)]="selectedDeleteReason">
+                                <option value="">Select Delete reason</option>
+                                <option *ngFor="let r of reasons" [value]="r">{{ r }}</option>
+                            </select>
+
+                            <div *ngIf="selectedDeleteReason === 'Other'">
+                                <input type="text" [(ngModel)]="customDeleteReason" placeholder="Enter reason" />
+                            </div>
+
+                            <button (click)="confirmDelete(post.postId)" class="btn btn-danger btn-sm">Submit</button>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>

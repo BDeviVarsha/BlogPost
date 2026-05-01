@@ -47,8 +47,7 @@ export class ModerationComponent {
       return;
     }
 
-    this.moderationService.rejectPost(postId, finalReason)
-      .subscribe(() => {
+    this.moderationService.rejectPost(postId, finalReason).subscribe(() => {
         this.selectedPostId = null;
         this.loadPendingPosts(); // refresh list
       });
