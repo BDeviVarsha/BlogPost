@@ -8,7 +8,7 @@ import { Posts } from '../home/posts';
 })
 export class HomeService {
 
-  apiUrl = 'https://localhost:7249/api/Home'
+  apiUrl = 'http://localhost:5090/api/Home'
 
   constructor(private http: HttpClient) { }
 

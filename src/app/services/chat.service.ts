@@ -21,8 +21,8 @@ export class ChatService {
   private typingSubject = new BehaviorSubject<number | null>(null);
   typing$ = this.typingSubject.asObservable();
 
-  hubUrl = "https://localhost:7249/chathub";
-  apiUrl = "https://localhost:7249/api/Chat";
+  hubUrl = "http://localhost:5090/chathub";
+  apiUrl = "http://localhost:5090/api/Chat";
   constructor(private http: HttpClient) { }
 
   startConnection(currentUserId: number) {

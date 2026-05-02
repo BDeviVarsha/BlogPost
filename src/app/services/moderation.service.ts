@@ -8,7 +8,7 @@ import { Posts } from '../home/posts';
   providedIn: 'root'
 })
 export class ModerationService {
-  apiUrl = 'https://localhost:7249/api/Moderation';
+  apiUrl = 'http://localhost:5090/api/Moderation';
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 

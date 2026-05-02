@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = 'https://localhost:7249/api/Auth';
+  apiUrl = 'http://localhost:5090/api/Auth';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
