@@ -30,7 +30,7 @@
         <div class="message-bubble">
           {{ msg.content }}
           <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
-          <!-- <span class="seen" *ngIf="msg.senderId === this.userId">{{ msg.seen ? '✓✓' : '✓' }}</span> -->
+          <span class="seen" *ngIf="msg.sender_Id === this.userId">{{ msg.seen ? '✓✓' : '✓' }}</span>
         </div>
       </div>
       <div class="typing-indicator" *ngIf="isTyping">{{ activeUser.name }} is typing...</div>

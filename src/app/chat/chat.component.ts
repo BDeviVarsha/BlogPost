@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ChatComponent implements OnInit {
 
-  @ViewChild('messageContainer', {static:false}) private messageContainer!: ElementRef;
+  @ViewChild('messageContainer', { static: false }) private messageContainer!: ElementRef;
 
   users: User[] = [];
   activeUser!: User;
@@ -43,7 +43,7 @@ export class ChatComponent implements OnInit {
 
     // Listen for messages
     this.chatService.messages$.subscribe(msg => {
-      if (msg && ((msg.sender_Id === this.activeUserId && msg.receiver_Id === this.userId )||(msg.sender_Id === this.userId && msg.receiver_Id === this.activeUserId))){
+      if (msg && ((msg.sender_Id === this.activeUserId && msg.receiver_Id === this.userId) || (msg.sender_Id === this.userId && msg.receiver_Id === this.activeUserId))) {
         this.messages.push(msg);
         this.scrollToBottom();
       }
@@ -52,6 +52,19 @@ export class ChatComponent implements OnInit {
     // Listen for typing
     this.chatService.typing$.subscribe(userId => {
       this.isTyping = userId === this.activeUserId;
+    });
+
+    this.chatService.seen$.subscribe(ids => {
+      if (!ids) {
+        // console.warn('Received null or undefined message IDs in seen$');
+        return;
+      }
+
+      ids.forEach(id => {
+        const msg = this.messages.find(m => m.id === id);
+        // console.log('Marking message as seen:', id, msg);
+        if (msg) msg.seen = true;
+      });
     });
 
   }
@@ -68,12 +81,15 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessages(this.userId, this.activeUserId).subscribe(history => {
       this.messages = history;
       // this.scrollToBottom();
+
+      this.chatService.MessagesSeen(this.activeUserId, this.userId);
     });
   }
 
   sendMessage() {
     if (!this.newMessage.trim()) return;
     const msg: Message = {
+      id: 0, // will be set by backend
       sender_Id: this.userId,
       receiver_Id: this.activeUserId,
       content: this.newMessage,
@@ -87,9 +103,17 @@ export class ChatComponent implements OnInit {
   }
 
   sendTyping() {
+    console.log('Sending typing notification');
     this.chatService.sendTyping(this.userId, this.activeUserId);
   }
 
+  markAsSeen(message: Message) {
+    if (!message.seen && message.receiver_Id === this.userId) {
+
+      this.chatService.MessagesSeen(message.id, message.sender_Id);
+      message.seen = true; // Optimistically update UI
+    }
+  }
 
   private scrollToBottom() {
     try {

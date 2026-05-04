@@ -21,6 +21,9 @@ export class ChatService {
   private typingSubject = new BehaviorSubject<number | null>(null);
   typing$ = this.typingSubject.asObservable();
 
+  private seenSubject = new BehaviorSubject<number[]>([]);
+  seen$ = this.seenSubject.asObservable();
+
   hubUrl = "http://localhost:5090/chathub";
   apiUrl = "http://localhost:5090/api/Chat";
   constructor(private http: HttpClient) { }
@@ -50,6 +53,10 @@ export class ChatService {
       this.typingSubject.next(userId);
       setTimeout(() => this.typingSubject.next(null), 2000); // hide after 2s
     });
+
+    this.hubConnection.on('MessagesSeen', (messageIds: number[]) => {
+      this.seenSubject.next(messageIds);
+    });
   }
 
   sendMessage(senderId: number, receiverId: number, content: string) {
@@ -57,17 +64,26 @@ export class ChatService {
       console.error('Hub not connected!');
       return;
     }
-    this.hubConnection.invoke('SendMessage',  senderId, receiverId, content )
+    this.hubConnection.invoke('SendMessage', senderId, receiverId, content)
       .catch(err => console.error(err));
   }
 
   sendTyping(senderId: number, receiverId: number) {
-    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {console.log('Hub not connected!'); return;}
-    this.hubConnection.invoke('Typing', senderId, receiverId )
+    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) { console.log('Hub not connected!'); return; }
+    this.hubConnection.invoke('Typing', senderId, receiverId)
       .catch(err => console.error(err));
   }
 
   getMessages(senderId: number, receiverId: number): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/messages?user1=${senderId}&user2=${receiverId}`);
   }
+
+  MessagesSeen(senderId: number, receiverId: number) {
+
+    // console.log('Calling MarkAsSeen:', senderId, receiverId);
+
+  this.hubConnection.invoke('MarkAsSeen', senderId, receiverId)
+    .catch(err => console.error(err));
+}
+
 }

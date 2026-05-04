@@ -27,7 +27,9 @@ export class HomeService {
       console.warn('Could not extract fileName from filePath:', filePath);
       return undefined;
     }
-    return `${this.apiUrl}/file/${fileName}`;
+    // console.log(filePath);
+    // return `${this.apiUrl}/file/${fileName}`;
+    return filePath;
   }
   getMyPosts(): Observable<Posts[]> {
     return this.http.get<Posts[]>(`${this.apiUrl}/my-posts`);
