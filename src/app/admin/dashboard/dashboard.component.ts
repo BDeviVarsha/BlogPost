@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Posts } from 'src/app/home/posts';
 import { AdminService } from 'src/app/services/admin.service';
 
@@ -23,7 +24,7 @@ export class DashboardComponent {
 
   reasons: string[] = ['Spam', 'Offensive', 'Irrelevant', 'Duplicate', 'Other'];
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private route:Router) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -31,8 +32,12 @@ export class DashboardComponent {
 
   loadPosts() {
     this.adminService.getAllPosts().subscribe((res: any) => {
-      this.posts = res.filter((p: any) => !p.is_deleted); // hide deleted posts
+      this.posts = res;
     });
+  }
+
+  create(){
+    this.route.navigate(['/Admin/Announcement']);
   }
 
   // ---------------- Delete -----------------
@@ -54,12 +59,6 @@ export class DashboardComponent {
     }
 
     this.adminService.deletePost(postId, finalReason).subscribe(() => {
-      const post = this.posts.find(p => p.postId === postId);
-      if (post) {
-        post.is_deleted = true; 
-        post.deleted_Reason = finalReason; // make sure the property name matches backend
-      }
-      this.selectedPostId = null;
       this.loadPosts();
     });
   }
@@ -83,12 +82,6 @@ export class DashboardComponent {
     }
 
     this.adminService.rejectPost(postId, finalReason).subscribe(() => {
-      const post = this.posts.find(p => p.postId === postId);
-      if (post) {
-        post.status = 'Rejected';
-        // post.rejected_Reason = finalReason; // make sure this matches backend
-      }
-      this.selectedPostId = null;
       this.loadPosts();
     });
   }
@@ -100,84 +93,4 @@ export class DashboardComponent {
       if (post) post.status = 'Approved';
     });
   }
-
-
-  // loadPosts() {
-  //   this.adminService.getAllPosts().subscribe((res: any) => {
-  //     this.posts = res;
-  //   });
-  // }
-
-  // selectedPostId: number | null = null;
-  // selectedReason: string = '';
-  // customReason: string = '';
-
-  // reasons: string[] = ['Spam', 'Offensive', 'Irrelevant', 'Duplicate', 'Other'];
-
-  // openDelete(postId: number) {
-  //   this.selectedPostId = postId;
-  //   this.selectedReason = '';
-  //   this.customReason = '';
-  // }
-
-  // confirmDelete(postId: number) {
-  //   let finalReason = this.selectedReason;
-
-  //   if (this.selectedReason === 'Other') {
-  //     finalReason = this.customReason;
-  //   }
-
-  //   if (!finalReason) {
-  //     alert('Please select or enter a reason');
-  //     return;
-  //   }
-
-  //   this.adminService.deletePost(postId, finalReason).subscribe(() => {
-  //     const post = this.posts.find(p => p.postId === postId);
-  //     if (post) {
-  //       post.is_deleted = true;
-  //       post.deleted_Reason = finalReason;
-  //     }
-  //     this.selectedPostId = null;
-  
-  //     this.loadPosts();
-  //   });
-  // }
-  // openReject(postId: number) {
-  //   this.selectedPostId = postId;
-  //   this.selectedReason = '';
-  //   this.customReason = '';
-  // }
-
-  // confirmReject(postId: number) {
-  //   let finalReason = this.selectedReason;
-
-  //   if (this.selectedReason === 'Other') {
-  //     finalReason = this.customReason;
-  //   }
-
-  //   if (!finalReason) {
-  //     alert('Please select or enter a reason');
-  //     return;
-  //   }
-
-  //   this.adminService.rejectPost(postId, finalReason).subscribe(() => {
-  //     const post = this.posts.find(p => p.postId === postId);
-  //     if (post) post.is_deleted = true;  // Optional: hide in UI immediately
-  //     this.selectedPostId = null;
-  //     this.loadPosts();
-  //   });
-  // }
-  // approvePost(id: number) {
-  //   this.adminService.approvePost(id).subscribe({
-  //     next: () => {
-  //       const post = this.posts.find(p => p.postId === id);
-  //       if (post)
-  //         post.status = 'Approved';
-  //     },
-  //     error: (err) => {
-  //       console.error('Approve failed', err);
-  //     }
-  //   });
-  // }
 }

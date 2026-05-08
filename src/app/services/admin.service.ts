@@ -26,4 +26,9 @@ export class AdminService {
     return this.http.put(
       `${this.baseUrl}/posts/${id}/approve`, {});
   }
+
+  createAnnouncement(data:any){
+    return this.http.post(`${this.baseUrl}/announcements`, data.value);
+  }
+
 }

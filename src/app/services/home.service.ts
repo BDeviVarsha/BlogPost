@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Posts } from '../home/posts';
+import { Announcement } from '../home/announcement';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class HomeService {
   }
   deletePost(postId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/my-posts/${postId}`);
+  }
+  
+  getAnnouncement():Observable<Announcement[]>{
+    return this.http.get<Announcement[]>(`${this.apiUrl}/announcements`);
   }
 }

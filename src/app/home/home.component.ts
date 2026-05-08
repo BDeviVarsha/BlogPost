@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { HomeService } from '../services/home.service';
 import { Posts } from './posts';
+import { Announcement } from './announcement';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,32 @@ export class HomeComponent {
   limit = 10;
   totalPosts = 0;
   loading = false;
+  // announces: Announcement[] = [];
+  pinnedAnnouncements: Announcement[] = [];
+  normalAnnouncements: Announcement[] = [];
 
   constructor(private service: HomeService) { }
 
   ngOnInit(): void {
     this.loadPosts();
+    this.loadAnnounce();
+  }
+
+  loadAnnounce() {
+    this.service.getAnnouncement().subscribe({
+      next: (data) => {
+        // this.announces = data;
+        console.log(data);
+        this.pinnedAnnouncements = data.filter(a => a.is_Pinned);
+        this.normalAnnouncements = data.filter(a => !a.is_Pinned);
+    
+    console.log('Pinned Announcements:', this.pinnedAnnouncements);
+    console.log('Normal Announcements:', this.normalAnnouncements);
+      },
+      error(err) {
+        console.log("Failed to load posts", err);
+      },
+    })
   }
 
   loadPosts() {
@@ -68,11 +90,12 @@ export class HomeComponent {
 
   @HostListener('window:scroll', [])
   onScroll(): void {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const windowHeight = window.innerHeight;
-    const bodyHeight = document.body.scrollHeight;
 
-    if (scrollTop + windowHeight >= bodyHeight && !this.loading) {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 200;
+
+    // Trigger before reaching bottom
+    if (scrollPosition >= threshold && !this.loading) {
       this.loadPosts();
     }
   }

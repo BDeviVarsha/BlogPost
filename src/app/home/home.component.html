@@ -1,33 +1,47 @@
-<div class="main border p-3 mb-3" *ngFor="let post of Posts">
-    <h5>Author Name: {{ post.name }}</h5>
-    <div class="main border p-3 mb-3">
-        <h4>{{ post.title }}</h4>
-        <div [innerHTML]="post.description"></div>
+<div class="main border p-3 mb-3">
+    <!-- PINNED FIRST -->
+    <div *ngFor="let ann of pinnedAnnouncements" class="border p-3 mb-3">
+        📌 <b>{{ ann.title }}</b>
+        <div [innerHTML]="ann.description"></div>
+    </div>
 
-        <div class="post-media">
-            <ng-container *ngFor="let filePath of getPostFiles(post)">
-                <ng-container *ngIf="getFileUrl(filePath) as fileUrl">
-                    <ng-container *ngIf="isImage(filePath)">
-                        <img [src]="fileUrl" alt="Post Image" style="max-width:200px" /> &nbsp;
-                    </ng-container>
+    <!-- NORMAL -->
+    <div *ngFor="let ann of normalAnnouncements" class="border p-3 mb-3">
+        {{ ann.title }}
+        <div [innerHTML]="ann.description"></div>
+    </div>
 
-                    <ng-container *ngIf="isAudio(filePath)">
-                        <audio controls>
-                            <source [src]="fileUrl" type="audio/mpeg" /> &nbsp;
-                        </audio>
-                    </ng-container>
+    <div *ngFor="let post of Posts">
+        <h5>Author Name: {{ post.name }}</h5>
+        <div class="main border p-3 mb-3">
+            <h4>{{ post.title }}</h4>
+            <div [innerHTML]="post.description"></div>
 
-                    <ng-container *ngIf="isVideo(filePath)">
-                        <video controls>
-                            <source [src]="fileUrl" type="video/mp4" /> &nbsp;
-                        </video>
-                    </ng-container>
+            <div class="post-media">
+                <ng-container *ngFor="let filePath of getPostFiles(post)">
+                    <ng-container *ngIf="getFileUrl(filePath) as fileUrl">
+                        <ng-container *ngIf="isImage(filePath)">
+                            <img [src]="fileUrl" alt="Post Image" style="max-width:200px" /> &nbsp;
+                        </ng-container>
 
-                    <ng-container *ngIf="!isImage(filePath) && !isAudio(filePath) && !isVideo(filePath)">
-                        <a [href]="fileUrl" target="_blank">{{ getFileName(filePath) }}</a>
+                        <ng-container *ngIf="isAudio(filePath)">
+                            <audio controls>
+                                <source [src]="fileUrl" type="audio/mpeg" /> &nbsp;
+                            </audio>
+                        </ng-container>
+
+                        <ng-container *ngIf="isVideo(filePath)">
+                            <video controls>
+                                <source [src]="fileUrl" type="video/mp4" /> &nbsp;
+                            </video>
+                        </ng-container>
+
+                        <ng-container *ngIf="!isImage(filePath) && !isAudio(filePath) && !isVideo(filePath)">
+                            <a [href]="fileUrl" target="_blank">{{ getFileName(filePath) }}</a>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
-            </ng-container>
+            </div>
         </div>
     </div>
 </div>
