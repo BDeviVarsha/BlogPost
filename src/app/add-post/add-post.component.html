@@ -1,4 +1,4 @@
-<div class="card">
+<!-- <div class="card">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
         <div>
             <label for="title">Title: </label>
@@ -20,4 +20,45 @@
         </div>
         <button type="submit" [disabled]="postForm.invalid">Create Post</button>
     </form>
+</div> -->
+
+<div class="card">
+  <h3>{{ isEditMode ? 'Edit Post' : 'Create Post' }}</h3>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="title">Title: </label>
+      <input type="text" id="title" formControlName="title">
+      <div *ngIf="postForm.controls['title'].touched && postForm.controls['title'].invalid" class="text-danger">
+        Enter a title
+      </div>
+    </div>
+
+    <div>
+      <label for="desc">Description: </label>
+      <ckeditor id="desc" [editor]="Editor" formControlName="description" [config]="editorConfig"></ckeditor>
+      <div *ngIf="postForm.controls['description'].touched && postForm.controls['description'].invalid" class="text-danger">
+        Enter the description
+      </div>
+    </div>
+
+    <div>
+      <label for="attach">Attachment Files: </label>
+      <input type="file" id="attach" (change)="onFileSelected($event)" multiple>
+
+      <!-- Show existing files in edit mode -->
+      <div *ngIf="isEditMode && editingPost?.filePath">
+        <small>Current files: {{ editingPost?.filePath }}</small><br>
+        <small class="text-muted">Upload new files above to replace them, or leave empty to keep existing.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="postForm.invalid">
+      {{ isEditMode ? 'Update Post' : 'Create Post' }}
+    </button>
+
+    <button type="button" *ngIf="isEditMode" (click)="cancelEdit()" style="margin-left: 8px;">
+      Cancel
+    </button>
+  </form>
 </div>

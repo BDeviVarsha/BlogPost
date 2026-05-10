@@ -14,4 +14,7 @@ export class AddPostService {
     return this.http.post(this.apiUrl, data);
   }
   
+    updatePost(postId: number, data: any) {
+    return this.http.put(`${this.apiUrl}/${postId}`, data);
+  }
 }

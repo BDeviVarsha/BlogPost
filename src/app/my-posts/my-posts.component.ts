@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { Posts } from "../home/posts";
 import { HomeService } from "../services/home.service";
 import { BrowserModule } from "@angular/platform-browser";
+import { PostEditService } from "../services/post-edit.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-my-posts",
@@ -11,7 +13,7 @@ import { BrowserModule } from "@angular/platform-browser";
 export class MyPostsComponent {
   myPosts: Posts[] = [];
 
-  constructor(private service: HomeService) { }
+  constructor(private service: HomeService, private postEditService: PostEditService, private router: Router) { }
 
   ngOnInit() {
     this.loadMyPosts();
@@ -44,9 +46,9 @@ export class MyPostsComponent {
     }
   }
 
-  editPost(post: Posts) {
-    // Implement edit functionality here
-    console.log("Edit post:", post);
+   editPost(post: Posts) {
+    this.postEditService.setPost(post);       // store the post
+    this.router.navigate(['/AddPost']);       // navigate to the form
   }
 
   getFileName(filePath?: string): string {
