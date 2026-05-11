@@ -19,6 +19,10 @@
             <input type="checkbox" formControlName="is_pinned" id="pin">
             Pin to top</label>
         </div>
-        <button type="submit" [disabled]="announceForm.invalid">Create Post</button>
+        <button class="mb-3" type="submit" [disabled]="announceForm.invalid"> {{isEditMode? 'Update announcement': 'Create Post'}} </button>
+
+        <button type="button" *ngIf="isEditMode" (click)="cancelEdit()">
+      Cancel
+    </button>
     </form>
 </div>

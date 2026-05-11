@@ -1,0 +1,8 @@
+    <div *ngFor="let ann of announce" class="border p-3 mb-3">
+        <div *ngIf="ann.is_Pinned">📌</div>
+        <b>{{ ann.title }}</b>
+        <div [innerHTML]="ann.description"></div>
+        
+        <button (click)="deleteAnnounce(ann.id)">Delete</button> &nbsp;
+        <button (click)="editAnnounce(ann)">Edit</button>
+    </div>

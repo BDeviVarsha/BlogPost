@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../chat/user';
+import { User } from '../Interface/user';
 
 @Component({
   selector: 'app-navbar',

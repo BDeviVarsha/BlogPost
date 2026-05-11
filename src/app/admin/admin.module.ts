@@ -6,12 +6,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MyAnnouncementComponent } from './my-announcement/my-announcement.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AnnouncementComponent
+    AnnouncementComponent,
+    MyAnnouncementComponent
   ],
   imports: [
     CommonModule,

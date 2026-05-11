@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Posts } from 'src/app/home/posts';
+import { Posts } from 'src/app/Interface/posts';
 import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
@@ -38,6 +38,10 @@ export class DashboardComponent {
 
   create(){
     this.route.navigate(['/Admin/Announcement']);
+  }
+
+  myAnnounce(){
+    this.route.navigate(['/Admin/MyAnnouncement']);
   }
 
   // ---------------- Delete -----------------

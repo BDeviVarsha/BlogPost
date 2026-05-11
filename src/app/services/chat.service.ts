@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Message } from '../chat/message';
-import { User } from '../chat/user';
+import { Message } from '../Interface/message';
+import { User } from '../Interface/user';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

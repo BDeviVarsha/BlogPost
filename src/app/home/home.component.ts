@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { HomeService } from '../services/home.service';
-import { Posts } from './posts';
-import { Announcement } from './announcement';
+import { Posts } from '../Interface/posts';
+import { Announcement } from '../Interface/announcement';
 
 @Component({
   selector: 'app-home',

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../services/chat.service';
-import { Message } from './message';
-import { User } from './user';
+import { Message } from '../Interface/message';
+import { User } from '../Interface/user';
 import { AuthService } from '../services/auth.service';
 
 @Component({

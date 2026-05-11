@@ -7,7 +7,7 @@
 
     <!-- NORMAL -->
     <div *ngFor="let ann of normalAnnouncements" class="border p-3 mb-3">
-        {{ ann.title }}
+        <b>{{ ann.title }}</b>
         <div [innerHTML]="ann.description"></div>
     </div>
 

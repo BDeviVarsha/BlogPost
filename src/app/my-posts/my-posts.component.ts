@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Posts } from "../home/posts";
+import { Posts } from "../Interface/posts";
 import { HomeService } from "../services/home.service";
 import { BrowserModule } from "@angular/platform-browser";
 import { PostEditService } from "../services/post-edit.service";

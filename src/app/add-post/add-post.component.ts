@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AddPostService } from '../services/add-post.service';
-import { Posts } from '../home/posts';
+import { Posts } from '../Interface/posts';
 import { Router } from '@angular/router';
 import { PostEditService } from '../services/post-edit.service';
 
@@ -40,7 +40,7 @@ export class AddPostComponent {
       // Pre-fill the form with existing post data
       this.postForm.patchValue({
         title: post.title,
-        description: post.description,
+        description: post.description
       });
     }
   }

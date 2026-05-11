@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Posts } from '../home/posts';
+import { Posts } from '../Interface/posts';
 import { ModerationService } from '../services/moderation.service';
 import { HomeService } from '../services/home.service';
 
