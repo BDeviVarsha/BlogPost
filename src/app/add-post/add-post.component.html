@@ -53,11 +53,11 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="postForm.invalid">
+    <button type="submit" [disabled]="postForm.invalid" class="mb-3">
       {{ isEditMode ? 'Update Post' : 'Create Post' }}
     </button>
 
-    <button type="button" *ngIf="isEditMode" (click)="cancelEdit()" style="margin-left: 8px;">
+    <button type="button" *ngIf="isEditMode" (click)="cancelEdit()">
       Cancel
     </button>
   </form>

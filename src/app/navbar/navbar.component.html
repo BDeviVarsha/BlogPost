@@ -37,7 +37,7 @@
                 <span>{{ user?.name }}</span>
                 <i class="bi bi-caret-down-fill"></i>
 
-                <div class="dropdown" *ngIf="showMenu">
+                <div class="dropdown" *ngIf="isOpen">
                     <a routerLink="/profile">Profile</a>
                     <a (click)="logout()">Logout</a>
                 </div>

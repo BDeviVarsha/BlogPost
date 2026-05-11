@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ChatComponent implements OnInit {
 
-  @ViewChild('messageContainer', { static: false }) private messageContainer!: ElementRef;
+  @ViewChild('messageContainers') private messageContainer!: ElementRef;
 
   users: User[] = [];
   activeUser!: User;
@@ -117,7 +117,9 @@ export class ChatComponent implements OnInit {
 
   private scrollToBottom() {
     try {
-      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      if (this.messageContainer && this.messageContainer.nativeElement) {
+        this.messageContainer.nativeElement!.scrollTop = this.messageContainer.nativeElement!.scrollHeight;
+      }
     } catch (err) {
       console.error('Could not scroll to bottom:', err);
     }

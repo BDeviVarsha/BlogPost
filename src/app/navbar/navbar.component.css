@@ -8,7 +8,7 @@
   position: sticky;
   top: 0;
   background-color: rgb(160, 156, 156);
-  /* z-index: 1000; */
+  z-index: 1000;
 }
 
 /* Logo */

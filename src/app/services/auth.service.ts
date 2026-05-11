@@ -89,6 +89,7 @@ export class AuthService {
   refreshToken(): Observable<any> {
     const token = this.getRefreshToken();
     if (!token) return of(null);
+    console.log(token);
 
     return this.http.post(`${this.apiUrl}/refresh`, token).pipe(
       tap((response: any) => {

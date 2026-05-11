@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="chat-messages" #messageContainer>
+    <div class="chat-messages" #messageContainers>
       <div *ngFor="let msg of messages" 
            [ngClass]="{'my-message': msg.sender_Id === this.userId, 'friend-message': msg.sender_Id !== this.userId}">
         <div class="message-bubble">

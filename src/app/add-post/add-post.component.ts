@@ -64,27 +64,6 @@ export class AddPostComponent {
     }
   }
 
-  // onSubmit() {
-  //   const formData = new FormData();
-  //   formData.append('title', this.postForm.get('title')?.value);
-  //   formData.append('description', this.postForm.get('description')?.value);
-
-  //   // const file: File = this.postForm.get('file')?.value;
-  //   if (this.selectedFiles.length > 0) {
-  //     this.selectedFiles.forEach(file => {
-  //       formData.append('Files', file, file.name);
-  //     });
-  //   } else {
-  //     console.log("No files uploaded");
-  //   }
-
-  //   this.service.createPost(formData).subscribe(() => {
-  //     alert('Post created successfully');
-  //     this.postForm.reset();
-  //     this.selectedFiles = [];
-  //   })
-  // }
-
    onSubmit() {
     if (this.isEditMode && this.editingPost) {
       this.handleUpdate();
@@ -141,6 +120,6 @@ export class AddPostComponent {
 
   cancelEdit() {
     this.postEditService.clearPost();
-    this.router.navigate(['/my-posts']);
+    this.router.navigate(['/MyPosts']);
   } 
 }

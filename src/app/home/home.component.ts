@@ -29,12 +29,9 @@ export class HomeComponent {
     this.service.getAnnouncement().subscribe({
       next: (data) => {
         // this.announces = data;
-        console.log(data);
         this.pinnedAnnouncements = data.filter(a => a.is_Pinned);
         this.normalAnnouncements = data.filter(a => !a.is_Pinned);
     
-    console.log('Pinned Announcements:', this.pinnedAnnouncements);
-    console.log('Normal Announcements:', this.normalAnnouncements);
       },
       error(err) {
         console.log("Failed to load posts", err);
